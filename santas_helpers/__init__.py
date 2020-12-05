@@ -1,16 +1,20 @@
-def get_advent_input(day, force=False):
+def get_input(day, force=False):
     import requests
     import os
     
-    input_filename = f"./day{day}/input.txt"
+    full = []
+    with open(f"./input/day{day}.txt", "rt") as input_file:
+        full = [line.strip() for line in input_file]
+            
+    example_1 = []
+    if os.path.exists(f"./input/day{day}-example1.txt"):
+        with open(f"./input/day{day}-example1.txt", "rt") as input_file:
+            example_1 = [line.strip() for line in input_file]
+            
+    example_2 = []
+    if os.path.exists(f"./input/day{day}-example2.txt"):
+        with open(f"./input/day{day}-example2.txt", "rt") as input_file:
+            example_2 = [line.strip() for line in input_file]
     
-    if os.path.exists(input_filename):
-        with open(input_filename, "rt") as input_file:
-            return [line.strip() for line in input_file]
-    
-    # this doesn't work because of a 400 error .... figure it out later
-    with open(input_filename, "wb") as input_file:
-        response = requests.get(f"https://adventofcode.com/2020/day/{day}/input")
-        content = response.content
-        input_file.write(content)
-        return content.decode('utf-8')
+    return example_1, example_2, full
+          
